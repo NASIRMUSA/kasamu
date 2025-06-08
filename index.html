@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ha" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Naman Sallah 🐐🍖</title>
+  <meta name="description" content="Shiga sunanka ka gana ko za ka samu nama na Sallah">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-light: #3b82f6;
+      --secondary: #f59e0b;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --success: #10b981;
+      --error: #ef4444;
+      --radius: 12px;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      color: var(--dark);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    h1 {
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    input {
+      padding: 0.8rem 1rem;
+      font-size: 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: var(--radius);
+      transition: var(--transition);
+      text-align: center;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    }
+
+    button {
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: var(--transition);
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: var(--primary-light);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      background-color: #94a3b8;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .progress-container {
+      margin: 2rem 0;
+      display: none;
+    }
+
+    .progress-step {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .progress-text {
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      justify-content: flex-end;
+    }
+
+    .progress-bar {
+      background-color: #e2e8f0;
+      border-radius: 100px;
+      height: 10px;
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      transition: width 0.8s ease;
+    }
+
+    .spinner {
+      margin: 2rem auto;
+      border: 4px solid rgba(59, 130, 246, 0.1);
+      border-top: 4px solid var(--primary);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      display: none;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    #result {
+      font-size: 1.2rem;
+      margin: 1.5rem 0;
+      padding: 1rem;
+      border-radius: var(--radius);
+      background-color: #f0fdf4;
+      color: var(--success);
+      font-weight: 600;
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .error {
+      color: var(--error);
+      background-color: #fef2f2;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .emoji {
+      font-size: 1.5rem;
+    }
+
+    footer {
+      margin-top: 2rem;
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 1.5rem;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><span class="emoji">🐐🍖</span> Ka Samu Naman Sallah?</h1>
+    
+    <div class="input-group">
+      <input type="text" id="nameInput" placeholder="Shigar da sunanka" aria-label="Shigar da sunanka" />
+      <button id="checkButton" onclick="startCheck()">Duba Yanzu</button>
+    </div>
+    
+    <div class="error" id="error"></div>
+    
+    <div class="spinner" id="spinner"></div>
+
+    <div class="progress-container" id="progressContainer">
+      <div class="progress-step">
+        <div class="progress-text">🔍 Ana duba kudinka </div>
+        <div class="progress-bar"><div class="fill" id="bar1"></div></div>
+      </div>
+
+      <div class="progress-step">
+        <div class="progress-text">💍 Ana duba ko kai ɗaya ne ko kana da aure...</div>
+        <div class="progress-bar"><div class="fill" id="bar2"></div></div>
+      </div>
+
+      <div class="progress-step">
+        <div class="progress-text">🌟 Ana duba yawan abokan ka</div>
+        <div class="progress-bar"><div class="fill" id="bar3"></div></div>
+      </div>
+    </div>
+
+    <div id="result"></div>
+  </div>
+
+  <footer>
+    Na gina shine  ❤️ domin Sallah
+  </footer>
+
+  <!-- Sound effect -->
+  <audio id="meatSound" preload="auto">
+    <source src="https://www.fesliyanstudios.com/play-mp3/387" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const nameInput = document.getElementById("nameInput");
+    const checkButton = document.getElementById("checkButton");
+    const spinner = document.getElementById("spinner");
+    const progressContainer = document.getElementById("progressContainer");
+    const resultDiv = document.getElementById("result");
+    const errorDiv = document.getElementById("error");
+    const meatSound = document.getElementById("meatSound");
+
+    function startCheck() {
+      const name = nameInput.value.trim();
+      
+      // Clear previous results/errors
+      resultDiv.style.display = "none";
+      errorDiv.style.display = "none";
+      
+      // Validate input
+      if (!name) {
+        showError("Da fatan ka shigar da sunanka!");
+        return;
+      }
+
+      // Disable button during processing
+      checkButton.disabled = true;
+      resultDiv.style.display = "none";
+      spinner.style.display = "block";
+      progressContainer.style.display = "none";
+      
+      // Reset progress bars
+      ['bar1', 'bar2', 'bar3'].forEach(id => {
+        document.getElementById(id).style.width = '0%';
+      });
+
+      // Simulate processing
+      setTimeout(() => {
+        spinner.style.display = "none";
+        progressContainer.style.display = "block";
+
+        // Animate progress bars sequentially
+        let delays = [100, 1800, 2600];
+        ['bar1', 'bar2', 'bar3'].forEach((id, i) => {
+          setTimeout(() => {
+            document.getElementById(id).style.width = '100%';
+          }, delays[i]);
+        });
+
+        // Show final result
+        setTimeout(() => {
+          showResult(name);
+          checkButton.disabled = false;
+        }, 3500);
+      }, 1500);
+    }
+
+    function showResult(name) {
+      const results = [
+        `🎉 ${name}, ka samu babbar ƙafar rago!`,
+        `😄 ${name}, an ba ka ƙananan ƙashi amma da nama.`,
+        `🍗 ${name}, sun aiko maka da tsire daga Kano.`,
+        `😂 ${name}, ka taimaka da girki amma ka manta da ci.`,
+        `😅 ${name}, har yanzu kana jira... wataƙila gobe.`,
+        `🐐 ${name}, ka ji ƙamshin nama kawai.`,
+        `🎊 ${name}, an saka sunanka cikin jerin wadanda za a ba nama.`,
+        `🍖 ${name}, ka ci nama har ka gaji.`,
+        `🥲 ${name}, sun ce "zuwa anjima" tun safe har yamma.`,
+        `🤣 ${name}, an ba kowa nama... sai kai!`
+      ];
+
+      const randomResult = results[Math.floor(Math.random() * results.length)];
+      resultDiv.innerHTML = randomResult;
+      resultDiv.style.display = "block";
+
+      // Play sound
+      meatSound.play();
+      
+      // Scroll to result
+      resultDiv.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function showError(message) {
+      errorDiv.textContent = message;
+      errorDiv.style.display = "block";
+    }
+
+    // Allow pressing Enter key to submit
+    nameInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        startCheck();
+      }
+    });
+  </script>
+</body>
+</html>
